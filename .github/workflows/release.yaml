@@ -1,0 +1,24 @@
+name: Docker Image Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Dockerfile'
+
+permissions:
+  packages: write
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Build and push Docker image
+        uses: ./.github/actions/build-and-push
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
